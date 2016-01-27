@@ -14,6 +14,10 @@ import redis.clients.jedis.JedisPoolConfig;
 public class JedisPoolUtils {
 	
 	private static JedisPool pool;
+	private static final String PASSWORD = "happy8zx";
+	private static final String HOST = "127.0.0.1";
+	private static final int PORT = 6379;
+	private static final int CONNECTION_TIMEOUT = 10000;//10s
 
     /**
      * 建立连接池 真实环境，一般把配置参数缺抽取出来。
@@ -21,9 +25,9 @@ public class JedisPoolUtils {
      */
     private static void createJedisPool() {
 
+    
         // 建立连接池配置参数
         JedisPoolConfig config = new JedisPoolConfig();
-
         // 设置最大连接数
         config.setMaxTotal(100);
 
@@ -34,7 +38,8 @@ public class JedisPoolUtils {
         config.setMaxIdle(10);
 
         // 创建连接池
-        pool = new JedisPool(config, "127.0.0.1", 6379);
+        pool = new JedisPool(config, HOST, PORT,CONNECTION_TIMEOUT,PASSWORD);
+     
 
     }
 
@@ -65,6 +70,7 @@ public class JedisPoolUtils {
      */
     public static void returnRes(Jedis jedis) {
         pool.returnResource(jedis);
+        
     }
 
 }
